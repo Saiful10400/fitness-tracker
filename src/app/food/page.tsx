@@ -1,4 +1,6 @@
 "use client";
+ 
+import axios from "axios";
 import React, { useState } from "react";
 
 const Food = () => {
@@ -55,17 +57,28 @@ const Food = () => {
 
   // page input element count.
   const [inputCount, setInputCount] = useState<number>(1);
- 
+
+  const promptGeneratorHandle = () => {
+    const array = foods.map((item) => `${item.quantity} ${item.food}`);
+    return array.join(",");
+  };
 
 
-const promptGeneratorHandle=()=>{
-  const array = foods.map((item) => `${item.quantity} ${item.food}`);
-  return(array.join(","))
-}
 
- 
+const[loading,setLoading]=useState(false)
+const[created,setCreated]=useState(false)
+
+  // food submit button handler.
+  const foodSubmitHandler = () => {
+    if (foods.length === 0) return;
+setLoading(true)
+setCreated(false)
+    axios
+      .post("https://mcq-test-server.vercel.app/api/fitness/food/create", foods)
+      .then((res) => {if(res.data.statusCode===200) setLoading(false); setCreated(true)});
+  };
   return (
-    <div>
+    <div className="min-h-[80vh]">
       <div className="grid grid-cols-1 gap-4">
         {Array.from({ length: inputCount }).map((_, index) =>
           inputElement(index)
@@ -82,6 +95,20 @@ const promptGeneratorHandle=()=>{
         placeholder="Your prompt."
         className="border w-full py-1 pl-1 rounded-sm"
       ></textarea>
+      {
+        loading?<span className="loading loading-spinner loading-xl mt-4"></span>: <button
+        onClick={foodSubmitHandler}
+        className="bg-[#b790e4] w-full text-gray-200 font-medium p-1 rounded-sm  mt-4"
+      >
+        Submit
+      </button>
+      }
+     {created&&<h1 className="mt-5">Created</h1>}
+
+{/* <Calender/> */}
+
+
+
     </div>
   );
 };

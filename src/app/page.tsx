@@ -1,9 +1,14 @@
+
+import ConsumedFoods from '@/component/ConsumedFoods';
+
 import React from 'react';
 
-const Home = () => {
+const Home = ({ searchParams }: { searchParams: { date: string } }) => {
+
+
     return (
         <div>
-            this is home.
+            <ConsumedFoods params={searchParams.date as string} />
         </div>
     );
 };

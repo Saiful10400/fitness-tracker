@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./Nav";
+import { HeroUIProvider } from "@heroui/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <Nav/>
+        <HeroUIProvider>  <div className="px-2 pt-2 h-[calc(100vh-80px)] overflow-auto">{children}</div></HeroUIProvider>
+        <Nav />
       </body>
     </html>
   );
