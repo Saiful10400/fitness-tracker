@@ -18,20 +18,10 @@ export interface tFood {
 import axios from 'axios';
 const ConsumedFoods = async ({ params }: { params: string }) => {
 
-    function getTodayDateFormatted(): string {
-        const today = new Date();
-
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const day = String(today.getDate()).padStart(2, '0');
-
-        return `${year}/${month}/${day}`;
-    }
+ 
 
 
-
-
-    const res = await axios.get(`https://mcq-test-server.vercel.app/api/fitness/food?date=${params || getTodayDateFormatted()}`)
+    const res = await axios.get(`https://mcq-test-server.vercel.app/api/fitness/food?date=${params}`)
 
     const data: tFood[] = res.data.data
 
@@ -64,6 +54,15 @@ const ConsumedFoods = async ({ params }: { params: string }) => {
             date: formattedDate,
             time: formattedTime,
         };
+    }
+    function getTodayDateFormatted(): string {
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const day = String(today.getDate()).padStart(2, '0');
+
+        return `${year}/${month}/${day}`;
     }
 
     return (
